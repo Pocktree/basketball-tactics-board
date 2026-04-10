@@ -562,30 +562,30 @@ export const useTacticsBoardStore = create<TacticsBoardStore>()(
       };
     },
     {
-      name: "tactics-board-store-v1",
+      name: "tactics-board-store-v3",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         theme: state.theme,
-        scoreboardOpen: state.scoreboardOpen,
         redTeamName: state.redTeamName,
         blueTeamName: state.blueTeamName,
-        redScore: state.redScore,
-        blueScore: state.blueScore,
-        redFouls: state.redFouls,
-        blueFouls: state.blueFouls,
-        redTimeouts: state.redTimeouts,
-        blueTimeouts: state.blueTimeouts,
         period: state.period,
         periodDurationSec: state.periodDurationSec,
-        timeLeftSec: state.timeLeftSec,
-        shotClockSec: state.shotClockSec,
         shotClockEnabled: state.shotClockEnabled,
-        isClockRunning: state.isClockRunning,
-        keyframes: state.keyframes,
-        activeKeyframeIndex: state.activeKeyframeIndex,
-        ballHolderId: state.ballHolderId,
-        items: state.items,
       }),
+      merge: (persistedState, currentState) => {
+        const persisted = (persistedState ?? {}) as Partial<TacticsBoardStore>;
+        return {
+          ...currentState,
+          theme: persisted.theme ?? currentState.theme,
+          redTeamName: persisted.redTeamName ?? currentState.redTeamName,
+          blueTeamName: persisted.blueTeamName ?? currentState.blueTeamName,
+          period: persisted.period ?? currentState.period,
+          periodDurationSec:
+            persisted.periodDurationSec ?? currentState.periodDurationSec,
+          shotClockEnabled:
+            persisted.shotClockEnabled ?? currentState.shotClockEnabled,
+        };
+      },
     },
   ),
 );

@@ -787,6 +787,15 @@ export default function TacticsBoard() {
     [],
   );
 
+  useEffect(() => {
+    try {
+      window.localStorage.removeItem("tactics-board-store-v1");
+      window.localStorage.removeItem("tactics-board-store-v2");
+    } catch {
+      // Ignore storage access failures.
+    }
+  }, []);
+
   const onStagePointerDown = (event: KonvaEventObject<MouseEvent | TouchEvent>) => {
     setScreenMenu(null);
     if (scoreboardOpen) {
